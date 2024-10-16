@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dressingapp/globals/colors.dart';
 
 class Clothepage extends StatefulWidget {
   const Clothepage({super.key});
@@ -11,7 +12,7 @@ class _ClothepageState extends State<Clothepage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.purple,
+      color: clothePageColor,
     );
   }
 }
