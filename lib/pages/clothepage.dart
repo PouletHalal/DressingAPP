@@ -44,7 +44,7 @@ class _ClothepageState extends State<Clothepage> {
               Text(
                 'Category $index',
                 style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: tempColor),
               ),
               SizedBox(
                 height: 200,
