@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:dressingapp/globals/colors.dart';
 
@@ -11,8 +14,67 @@ class Clothepage extends StatefulWidget {
 class _ClothepageState extends State<Clothepage> {
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          return;
+        },
+        backgroundColor: tempColor2,
+        splashColor: tempColor,
+        child: const Icon(
+          Icons.add,
+          color: clothePageColor,
+        ),
+      ),
+      backgroundColor: clothePageColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 20,
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(10),
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Category $index',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 200,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.all(10),
+                  itemCount: Random().nextInt(8),
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 10);
+                  },
+                  itemBuilder: (context, index) {
+                    return const ClotheCard();
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ClotheCard extends StatelessWidget {
+  const ClotheCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      color: clothePageColor,
+      color: Color.fromARGB(255, 1 + Random().nextInt(255), 1 + Random().nextInt(255), 1 + Random().nextInt(255)),
+      width: 100,
     );
   }
 }
