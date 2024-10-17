@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import '../globals/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:dressingapp/globals/colors.dart';
 import '../globals/clothes.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 class AddClothe extends StatefulWidget {
   const AddClothe({super.key});
 
@@ -11,10 +15,12 @@ class AddClothe extends StatefulWidget {
 
 class _AddClotheState extends State<AddClothe> {
   double _clotheTemperature = 50;
+  Color _clotheColor = tempColor2;
   Color _temperatureBarColor = temperatureColors[((50 / 25)).truncate()];
   Map<String, bool> clotheTypesMap = {
     for (var type in clotheTypes) type: false
   };
+  File ? selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -111,10 +117,85 @@ class _AddClotheState extends State<AddClothe> {
                 ],
               )
             ],
+          ),
+            Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+              width: 250, // Adjust the width as needed
+              child: ColorPicker(
+                paletteType: PaletteType.hueWheel,
+                labelTypes: [],
+                pickerColor: _clotheColor,
+                onColorChanged: (value) {
+                setState(() {
+                  _clotheColor = value;
+                });
+                },
+              ),
+              ),
+            ],
+            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const BoldText(data: "Picture"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.photo,
+                      color: tempColor,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _imageFromGallery(ImageSource.gallery);
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.camera_alt,
+                      color: tempColor,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _imageFromGallery(ImageSource.camera);
+                      });
+                    },
+                  ),
+                ],
+              ),
+                Container(
+                  alignment: Alignment.center,
+                padding: const EdgeInsets.all(30),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20), // Adjust the radius as needed
+                  child: SizedBox.fromSize(
+                  size: const Size.fromRadius(200),
+                  child: selectedImage != null 
+                    ? Image.file(
+                      selectedImage!, 
+                      fit: BoxFit.cover, // Ensure the image fits within the rounded border
+                    ) 
+                    : Container()
+                  )
+                )
+                )
+            ],
           )
         ],
       ),
     );
+  }
+  Future _imageFromGallery(format) async {
+    final returnedImage = await ImagePicker().pickImage(source: format);
+
+    if (returnedImage == null) return;
+    setState(() {
+      selectedImage = File(returnedImage.path);
+    });
   }
 }
 
@@ -181,13 +262,13 @@ class BasicTextField extends StatelessWidget {
         alignLabelWithHint: true,
         labelText: data,
         labelStyle: const TextStyle(
-          color: tempColor2,
+          color: tempColor,
         ),
         enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: tempColor2)
+          borderSide: BorderSide(color: tempColor)
         ),
         focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: tempColor2)
+          borderSide: BorderSide(color: tempColor)
         ),
       ),
     );
