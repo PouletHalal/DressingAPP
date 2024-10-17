@@ -1,8 +1,8 @@
-import 'dart:developer';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:dressingapp/globals/colors.dart';
+import 'addclothepage.dart';
 
 class Clothepage extends StatefulWidget {
   const Clothepage({super.key});
@@ -17,7 +17,10 @@ class _ClothepageState extends State<Clothepage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          return;
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddClothe()),
+              );
         },
         backgroundColor: tempColor2,
         splashColor: tempColor,
