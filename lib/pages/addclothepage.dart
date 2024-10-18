@@ -6,6 +6,7 @@ import 'package:dressingapp/globals/colors.dart';
 import '../globals/clothes.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+
 class AddClothe extends StatefulWidget {
   const AddClothe({super.key});
 
@@ -35,7 +36,8 @@ class _AddClotheState extends State<AddClothe> {
             color: tempColor,
           )
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: clothePageColor,
+        surfaceTintColor: clothePageColor,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -50,7 +52,7 @@ class _AddClotheState extends State<AddClothe> {
       ),
       backgroundColor: clothePageColor,
       body: ListView(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(20),
         scrollDirection: Axis.vertical,
         children: [
           Column(
