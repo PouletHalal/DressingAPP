@@ -15,8 +15,7 @@ class AddClothe extends StatefulWidget {
 }
 
 class _AddClotheState extends State<AddClothe> {
-  Color _clotheColor = tempColor2;
-  File? selectedImage;
+  // Color _clotheColor = tempColor2;
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +63,6 @@ class _AddClotheState extends State<AddClothe> {
         ],
       ),
     );
-  }
-
-  Future _getImageFrom(format) async {
-    final returnedImage = await ImagePicker().pickImage(source: format);
-
-    if (returnedImage == null) return;
-    setState(() {
-      selectedImage = File(returnedImage.path);
-    });
   }
 }
 
@@ -157,59 +147,86 @@ class _ClotheTypeSelectorState extends State<ClotheTypeSelector> {
   }
 }
 
-class DisplayClothePicture extends StatelessWidget {
-  const DisplayClothePicture({
-    super.key,
-    required this.selectedImage,
-  });
-
-  final File? selectedImage;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(30),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: SizedBox.fromSize(
-                size: const Size.fromRadius(200),
-                child: selectedImage != null
-                    ? Image.file(
-                        selectedImage!,
-                        fit: BoxFit.cover,
-                      )
-                    : Container())));
-  }
-}
-
-class ImagePickerRow extends StatelessWidget {
-  final Color iconColor;
-  final VoidCallback onGalleryPressed;
-  final VoidCallback onCameraPressed;
-
+class ImagePickerRow extends StatefulWidget {
   const ImagePickerRow({
     super.key,
-    required this.iconColor,
-    required this.onGalleryPressed,
-    required this.onCameraPressed,
   });
 
   @override
+  State<ImagePickerRow> createState() => _ImagePickerRowState();
+}
+
+class _ImagePickerRowState extends State<ImagePickerRow> {
+  File? selectedImage;
+
+  @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        IconButton(
-          icon: Icon(Icons.photo, color: iconColor),
-          onPressed: onGalleryPressed,
+    return Scaffold(
+        appBar: AppBar(
+          title: const BoldText(data: "Pictures"),
+          centerTitle: true,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: tempColor,
+              )),
+          backgroundColor: clothePageColor,
+          surfaceTintColor: clothePageColor,
         ),
-        IconButton(
-          icon: Icon(Icons.camera_alt, color: iconColor),
-          onPressed: onCameraPressed,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ClotheTypeSelector()));
+          },
+          backgroundColor: tempColor2,
+          splashColor: tempColor,
+          child: const Icon(
+            Icons.check,
+            color: clothePageColor,
+          ),
         ),
-      ],
-    );
+        backgroundColor: clothePageColor,
+        body: Center(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.photo, color: tempColor),
+                    onPressed: () {
+                      setState(() {
+                        _getImageFrom(ImageSource.gallery);
+                      });
+                    },
+                  ),
+                  IconButton(
+                      icon: const Icon(Icons.camera_alt, color: tempColor),
+                      onPressed: () {
+                        setState(() {
+                          _getImageFrom(ImageSource.camera);
+                        });
+                      }),
+                ],
+              ),
+              DisplayClothePicture(selectedImage: selectedImage)
+            ],
+          ),
+        ));
+  }
+
+  Future _getImageFrom(format) async {
+    final returnedImage = await ImagePicker().pickImage(source: format);
+
+    if (returnedImage == null) return;
+    setState(() {
+      selectedImage = File(returnedImage.path);
+    });
   }
 }
 
@@ -245,10 +262,10 @@ class _TemperatureSelectorState extends State<TemperatureSelector> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => const ClotheTypeSelector()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ImagePickerRow()));
           },
           backgroundColor: tempColor2,
           splashColor: tempColor,
@@ -389,5 +406,31 @@ class BasicTextField extends StatelessWidget {
             borderSide: BorderSide(color: tempColor)),
       ),
     );
+  }
+}
+
+class DisplayClothePicture extends StatelessWidget {
+  const DisplayClothePicture({
+    super.key,
+    required this.selectedImage,
+  });
+
+  final File? selectedImage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(30),
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: SizedBox.fromSize(
+                size: const Size.fromRadius(200),
+                child: selectedImage != null
+                    ? Image.file(
+                        selectedImage!,
+                        fit: BoxFit.cover,
+                      )
+                    : Container())));
   }
 }
