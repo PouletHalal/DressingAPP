@@ -53,13 +53,6 @@ class _AddClotheState extends State<AddClothe> {
         children: [
           BoldText(data: "Name"),
           BasicTextField(data: "Enter clothe name"),
-          // ClotheTypeSelector(
-          //     clotheTypesMap: clotheTypesMap,
-          //     onTypeChanged: (updatedMap) {
-          //       setState(() {
-          //         clotheTypesMap = updatedMap;
-          //       });
-          //     }),
         ],
       ),
     );
@@ -431,6 +424,8 @@ class DisplayClothePicture extends StatelessWidget {
                         selectedImage!,
                         fit: BoxFit.cover,
                       )
-                    : Container())));
+                    : const SizedBox(
+                        width: 0,
+                      ))));
   }
 }
