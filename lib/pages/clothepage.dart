@@ -20,7 +20,7 @@ class _ClothepageState extends State<Clothepage> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AddClothe()),
-              );
+          );
         },
         backgroundColor: tempColor2,
         splashColor: tempColor,
@@ -43,8 +43,10 @@ class _ClothepageState extends State<Clothepage> {
             children: [
               Text(
                 'Category $index',
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: tempColor),
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: tempColor),
               ),
               SizedBox(
                 height: 200,
@@ -76,8 +78,9 @@ class ClotheCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromARGB(255, 1 + Random().nextInt(255), 1 + Random().nextInt(255), 1 + Random().nextInt(255)),
-      width: 100,
+      color: Color.fromARGB(255, 1 + Random().nextInt(255),
+          1 + Random().nextInt(255), 1 + Random().nextInt(255)),
+      width: 99,
     );
   }
 }
